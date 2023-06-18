@@ -1,0 +1,123 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+    font-family: "Arial Rounded MT", Arial, sans-serif;
+}
+
+main {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+img {
+    max-width: 35vw;
+    max-height: 20vw;
+    display: block;
+    margin: auto;
+}
+
+#pageText {
+    display: flex;
+    flex-flow: column;
+    color: #572785;
+    font-size: 30px;
+    font-weight: bolder;
+    align-items: center;
+    text-shadow: 0 0 2px black;
+}
+
+form {
+    gap: 0.5em;
+    flex-flow: row wrap;
+    max-width: 90vw;
+    margin: auto;
+    align-items: baseline;
+    font-weight: bolder;
+    text-transform: uppercase;
+}
+
+#loadingAnimation {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+}
+
+#input-row {
+    display: flex;
+    padding: 5px;
+    margin: 10px;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+#results-row {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    margin: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+footer {
+    background-color: #e0c2f2;
+    padding: 10px;
+    position: sticky;
+    bottom: 0;
+}
+
+header {
+    padding: 5px;
+    position: sticky;
+    bottom: 0;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+
+@media (max-width: 600px) {
+    main {
+        padding: 10px;
+    }
+}
+
+#submitButton {
+    background: linear-gradient(45deg, #572785, #ec1e79, #28abe2, #f15a24, #fbb03b);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 45px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-shadow: 0 0 2px black;
+}
+
+#link {
+    background: linear-gradient(45deg, #572785, #ec1e79, #28abe2, #f15a24, #fbb03b);
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 45px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    text-shadow: 0 0 2px black;
+}
+
+input[type="text"] {
+    width: 100px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}

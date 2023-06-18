@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>CityHop.es</title>
+  <base href="/" />
+  <link rel="icon" href="favicon.ico" />
+  <link type="text/css" rel="stylesheet" href="main.css" />
+</head>
+
+<body>
+  <div class="container">
+    <header>
+      <img src="logo.png" alt="Logo" />
+    </header>
+    <main>
+      <div id="pageText">CityHop</div>
+      <p>
+      <form action="#">
+        <div id="input-row">
+          <div>
+            <label for="cityOrigin">City of departure:</label>
+            <input id="cityOrigin" alt="cityOrigin" type="text" required />
+          </div>
+          <div>
+            <label for="cityVisit1">City visit 1:</label>
+            <input id="cityVisit1" alt="City visit 1" type="text" required />
+          </div>
+          <div>
+            <label for="cityVisit2">City visit 2:</label>
+            <input id="cityVisit2" alt="City visit 2" type="text" required />
+          </div>
+        </div>
+        <div id="input-row">
+          <div>
+            <label for="days">How many days in each city:</label>
+            <span id="slider-value">1</span>
+            <input type="range" id="slider" min="1" max="10" step="1" value="1" required>
+          </div>
+          <div>
+            <label for="adults">How many adults:</label>
+            <span id="slider-value2">1</span>
+            <input type="range" id="slider2" min="1" max="8" step="1" value="1" required>
+          </div>
+          <div>
+            <label for="departureDateText">Date of departure:</label>
+            <input id="departureDate" alt="Date of departure" type="date" required />
+          </div>
+        </div>
+        <div id="input-row">
+          <button id="submitButton" type="submit">Search</button>
+        </div>
+      </form>
+      <div id="loadingAnimation" style="display: none;">
+        <img src="blockchainplane.gif" alt="Loading..." />
+      </div>
+      <p>
+      <div id="results" style="display: none;">
+        <div id="results-row">
+          <div>Your price is: <span id="precio"></span>€</div>
+          <p><div><a id="link" href="" target="_blank">Buy tickets</a></div></p>
+        </div>
+      </div>
+    </main>
+    <footer>
+      <a href="https://www.skyscanner.net" target="_blank"><img src="inline--blue.svg" alt="Skyscanner logo" /></a>
+      <a href="https://internetcomputer.org" target="_blank"></a><img src="ic-badge-powered-by-crypto_slim-transparent-dark-text.svg" alt="DFINITY logo" /></a>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "canisters": {
+    "cityhopper_frontend": {
+      "frontend": {
+        "entrypoint": "src/cityhopper_frontend/src/index.html"
+      },
+      "source": [
+        "src/cityhopper_frontend/assets",
+        "dist/cityhopper_frontend/"
+      ],
+      "type": "assets"
+    }
+  },
+  "defaults": {
+    "build": {
+      "args": "",
+      "packtool": ""
+    }
+  },
+  "output_env_file": ".env",
+  "version": 1
+}
