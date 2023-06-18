@@ -1,5 +1,3 @@
-import { cityhopper_backend } from "../../declarations/cityhopper_backend";
-
 var today = new Date();
 var year = today.getFullYear();
 var month = String(today.getMonth() + 1).padStart(2, "0");
