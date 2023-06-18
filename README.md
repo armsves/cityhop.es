@@ -1,4 +1,4 @@
-# cityhop.es
+# CityHop.es
 CityHop.es Project for the  Blue Sky Track of the Encode Buidl Hackaton
 
 The usage is simple, you have to enter the Departure city and the 2 cities you want to travel (in IATA format), how many days, how many adults and the departure date.
