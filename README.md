@@ -12,4 +12,8 @@ Due to the number of api calls we have to use we decided to do it in the fronten
 
 Future implementations will have n-cities, autosuggest for city name, range for days and range for departure date.
 
+Screenshot1![Alt text](CityHop1.jpeg)
 
+Screenshot2![Alt text](CityHop2.jpeg)
+
+Screenshot3![Alt text](CityHop3.jpeg)
