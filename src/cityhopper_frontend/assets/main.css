@@ -115,9 +115,28 @@ header {
 }
 
 input[type="text"] {
-    width: 100px;
+    width: 250px;
     padding: 5px;
     border-radius: 5px;
     border: 1px solid #ccc;
     font-size: 14px;
+}
+
+.suggestions {
+    position: absolute;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    max-height: 200px;
+    overflow-y: auto;
+    font-size: 12px;
+}
+
+.suggestions p {
+    cursor: pointer;
+    padding: 5px;
+    margin: 0;
+}
+
+.suggestions p:hover {
+    background-color: #f2f2f2;
 }
