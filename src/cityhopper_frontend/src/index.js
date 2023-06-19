@@ -31,26 +31,39 @@ form.addEventListener('submit', function (event) {
 document.querySelector("form").addEventListener("submit", async (e) => {
   e.preventDefault();
   const button = e.target.querySelector("button");
-  const cityOrigin = document.getElementById("cityOrigin").value.toString();
-  const cityVisit1 = document.getElementById("cityVisit1").value.toString();
-  const cityVisit2 = document.getElementById("cityVisit2").value.toString();
+  const cityOrigin = document.getElementById("cityOriginHidden").value.toString();
+  const cityVisit1 = document.getElementById("cityVisit1Hidden").value.toString();
+  const cityVisit2 = document.getElementById("cityVisit2Hidden").value.toString();
   const days = document.getElementById("slider").value;
   const adults = document.getElementById("slider2").value;
   const departureDate = document.getElementById("departureDate").value.toString();
   button.setAttribute("disabled", true);
-  displayData(cityOrigin, cityVisit1, cityVisit2, days, departureDate, adults);
+  await displayData(cityOrigin, cityVisit1, cityVisit2, days, departureDate, adults);
   button.removeAttribute("disabled");
   return false;
 });
 
-async function displayData(cityOrigin, cityVisit1, cityVisit2, days, adults, year, month, day) {
+async function delay(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function displayData(cityOrigin, cityVisit1, cityVisit2, days, departureDate, adults) {
   try {
     const loadingAnimation = document.getElementById('loadingAnimation');
     loadingAnimation.style.display = 'block';
     let bestFlight = [];
     let bestFlight2 = [];
-    bestFlight = await buscarVuelo(cityOrigin, cityVisit1, cityVisit2, days, adults, year, month, day);
-    bestFlight2 = await buscarVuelo(cityOrigin, cityVisit2, cityVisit1, days, adults, year, month, day);
+
+    for (let i = 0; i < 10; i++) {
+      try {
+        bestFlight = await buscarVuelo(cityOrigin, cityVisit1, cityVisit2, days, departureDate, adults);
+        bestFlight2 = await buscarVuelo(cityOrigin, cityVisit2, cityVisit1, days, departureDate, adults);
+        break; 
+      } catch (error) {
+        console.error(`Error fetching flight data. Retrying... (${i+1}/10)`);
+        await delay(1000); 
+      }
+    }
 
     if (bestFlight[0] > bestFlight2[0]) {
       bestFlight = bestFlight2;
@@ -76,7 +89,7 @@ async function buscarVuelo(cityOrigin, cityVisit1, cityVisit2, days, departureDa
 
   console.log(departureDate)
   const departure = departureDate.split("-");
-  let date = new Date(departure[0],departure[1], departure[2]);
+  let date = new Date(departure[0], departure[1], departure[2]);
   console.log(date)
 
   days = parseInt(days)
@@ -144,8 +157,80 @@ async function buscarVuelo(cityOrigin, cityVisit1, cityVisit2, days, departureDa
       return flightData;
     } else {
       console.log('Request failed with status code:', response.status);
+      throw new Error('API request failed');
     }
   } catch (error) {
     console.error('An error occurred:', error);
+    throw error;
   }
 }
+
+function fetchSuggestions(inputFieldId, suggestionBoxId) {
+  const inputField = document.getElementById(inputFieldId);
+  const suggestionBox = document.getElementById(suggestionBoxId);
+
+  suggestionBox.innerHTML = '';
+
+  if (inputField.value.length > 2) {
+      const url = 'https://corsautosuggest.armsves.workers.dev/corsproxy/';
+      const searchTerm = inputField.value;
+      const data = {
+          query: {
+              market: 'UK',
+              locale: 'en-GB',
+              searchTerm: searchTerm,
+              includedEntityTypes: ['PLACE_TYPE_CITY', 'PLACE_TYPE_COUNTRY', 'PLACE_TYPE_AIRPORT']
+          },
+          limit: 10,
+          isDestination: true
+      };
+
+      fetch(url, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+      })
+          .then(response => response.json())
+          .then(data => {
+              const places = data.places;
+              places.forEach(place => {
+                  const cityName = place.cityName;
+                  const countryName = place.countryName;
+                  const iataCode = place.iataCode;
+                  const highlighting = place.highlighting;
+
+                  const boldCityName = boldenMatch(cityName, highlighting);
+                  const boldCountryName = boldenMatch(countryName, highlighting);
+
+                  const suggestion = document.createElement('p');
+                  suggestion.innerHTML = `${boldCityName}, ${boldCountryName} (${iataCode})`;
+
+                  suggestion.addEventListener('click', () => {
+                      inputField.value = `${cityName}, ${countryName} (${iataCode})`;
+                      document.getElementById(`${inputFieldId}Hidden`).value = iataCode;
+                      suggestionBox.innerHTML = '';
+                  });
+
+                  suggestionBox.appendChild(suggestion);
+              });
+          })
+          .catch(error => console.error('Error:', error));
+  }
+}
+
+function boldenMatch(text, highlighting) {
+  let boldenedText = text;
+
+  if (highlighting && highlighting.length > 0) {
+      const start = highlighting[0][0];
+      const end = highlighting[0][1];
+      boldenedText = text.substring(0, start) + '<strong>' + text.substring(start, end) + '</strong>' + text.substring(end);
+  }
+  return boldenedText;
+}
+
+document.getElementById('cityOrigin').addEventListener('input', () => { fetchSuggestions('cityOrigin', 'cityOriginSuggestions'); });
+document.getElementById('cityVisit1').addEventListener('input', () => { fetchSuggestions('cityVisit1', 'cityVisit1Suggestions'); });
+document.getElementById('cityVisit2').addEventListener('input', () => { fetchSuggestions('cityVisit2', 'cityVisit2Suggestions'); });
